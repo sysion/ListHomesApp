@@ -1,0 +1,49 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html{
+	font-size: 10px;
+	font-family: 'san-serif';
+	width: 768px;
+}
+
+body{
+	width: 100%;
+}
+
+a{
+	text-decoration: none;
+	color: rgba(22,22,22,0.7);
+}
+
+a:hover{
+	color: rgba(45,122,181,1);
+}
+
+
+#property{
+	padding: 2rem;
+	list-style: none;
+	width: 100%;
+}
+
+#property li{
+	margin: 2rem;
+	padding: 2rem;
+	border: solid 0.1rem #aaaaaa;
+	border-radius: 1rem;
+	box-shadow: 0 1rem 0 0;
+}
+
+#property a{
+	display: block;
+	width: 100%;
+}
+
+footer{
+	text-align: center;
+	font-size: 1.5rem;
+}
