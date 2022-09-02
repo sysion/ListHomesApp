@@ -19,10 +19,12 @@ import GetPropertyInfo from './lib/GetPropertyInfo.js';
 
 	const getPropertyInfo = new GetPropertyInfo();
 
-	/*let propertiesInfo = getPropertyInfo.getAllProperties().then(function(result){
+	/*/ Because getAllProperties() is async, it can not be assigned to a variable
+	let propertiesInfo = getPropertyInfo.getAllProperties().then(function(result){
 		return result;
 	});*/
 
+	//Because getAllProperties() is async, all action on the returned value MUST be done inside the THEN callback
 	getPropertyInfo.getAllProperties().then(result=>{
 		let propertiesInfo = result;
 		//console.log(propertiesInfo);

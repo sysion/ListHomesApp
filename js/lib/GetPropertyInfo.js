@@ -1,6 +1,8 @@
 class GetPropertyInfo{
 	constructor(id=''){
-		this.id = id;
+		if (Number(id) === id){
+			this.id = id;
+		}
 	}
 
 	async getAllProperties(){
@@ -8,8 +10,8 @@ class GetPropertyInfo{
     	return response.json();
 	}
 
-	async getAllProperty(id){
-		const response = await fetch(`http://127.0.0.1:12345/api/houses/index.php?id=${id}`);
+	async getProperty(){
+		const response = await fetch(`http://127.0.0.1:12345/api/houses/index.php?id=${this.id}`);
 		return response.json();
 	}
 }
