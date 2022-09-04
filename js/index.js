@@ -99,4 +99,19 @@ import RouteProperty from './lib/RouteProperty.js';
 
 	footer_p.innerHTML = '&copy;' + new Date().getFullYear() + ' Sysion Nigeria Ltd';
 
+	// serviceWorker code
+	if (! navigator.serviceWorker.controller) {//https or localhost required for serviceWorker
+	    if (navigator && navigator.serviceWorker) {
+	      window.addEventListener('load', () => {
+	        navigator.serviceWorker.register('../serviceWorker.js').then((registration) => {
+	          //registration was successful
+	          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+	        }, function(err) {
+	          //registration failed
+	          console.log('ServiceWorker registration failed: ', err);
+	        });
+	      });
+	    }
+	}
+
 })();
