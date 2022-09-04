@@ -18,6 +18,12 @@ class RouteProperty{
 		if (this.property instanceof PropertyListItem){
 			this.routeAddPath('home', '/');
 			this.property.renderListItems();
+
+			if (window.location.hash){
+				var hash = window.location.hash;
+				console.log('hash => '+hash);
+				window.location.hash = '';
+			}
 		}
 	}
 
@@ -29,6 +35,10 @@ class RouteProperty{
 			var url = this.baseUrl + path;
 			window.history.pushState({}, '', url);
 			this.property.renderListItem();
+
+			let btn = document.querySelector('.back-btn');
+			//console.log(btn.classList);
+			btn.classList.toggle('hide');
 		}
 		else{
 			var url = this.baseUrl;

@@ -50,6 +50,11 @@ import RouteProperty from './lib/RouteProperty.js';
 		routeProperty.routeInit();					// render view
 	});	
 
+	let btn = document.querySelector('.back-btn');
+	btn.addEventListener('click', function(){
+		routeProperty.routeInit();
+	});
+
 	let footer_p = document.querySelector('footer > p');
 	footer_p.innerHTML = '&copy;' + new Date().getFullYear() + ' Sysion Nigeria Ltd';
 })();

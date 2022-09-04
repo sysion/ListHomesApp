@@ -84,9 +84,9 @@ class PropertyListItem{
 		return listItem = `<li> 
 								<a href='#/${listItem.id}'>
 									<div>
-								  		<h1>id: ${listItem.id}</h1>
-								  		<h2>code: ${listItem.code}</h2>
-								  		<h3>agent: ${listItem.agent}</h3>
+								  		<h1>ID: ${listItem.id}</h1>
+								  		<h2>Code: ${listItem.code}</h2>
+								  		<h3>Agent: ${listItem.agent}</h3>
 									</div>
 								</a>
 							</li>`;

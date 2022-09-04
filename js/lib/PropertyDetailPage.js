@@ -24,12 +24,12 @@ class PropertyDetailPage{
 	}
 
 	ListItemTemplate = (listItem)=>{
-		return listItem = `<li> 
+		return listItem = `<li class='detail'> 
 								<div>
-							  		<h2>id: ${listItem.id}</h2>
-							  		<h2>code: ${listItem.code}</h2>
-							  		<h2>agent: ${listItem.agent}</h2>
-							  		<h3>address: ${listItem.address}</h3>
+							  		<h2>ID: ${listItem.id}</h2>
+							  		<h2>Code: ${listItem.code}</h2>
+							  		<h2>Agent: ${listItem.agent}</h2>
+							  		<h3>Address: ${listItem.address}</h3>
 							  		<div><img src=${listItem.url} alt='house image for ${listItem.code}' /></div>
 								</div>
 							</li>`;
