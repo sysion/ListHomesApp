@@ -7,11 +7,12 @@
 html{
 	font-size: 10px;
 	font-family: 'san-serif';
-	width: 768px;
 }
 
 body{
-	width: 100%;
+	width: 768px;
+	min-height: calc(100vh - 50px);
+	margin: 0 auto;
 }
 
 a{
@@ -46,4 +47,7 @@ a:hover{
 footer{
 	text-align: center;
 	font-size: 1.5rem;
+	height: 5rem;
+	background: red;
+	line-height: 5rem;
 }

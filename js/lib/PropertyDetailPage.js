@@ -1,3 +1,5 @@
+'use strict';
+
 class PropertyDetailPage{
 	constructor(property){
 		this.property = document.querySelector(property);
@@ -23,15 +25,13 @@ class PropertyDetailPage{
 
 	ListItemTemplate = (listItem)=>{
 		return listItem = `<li> 
-								<a href=''>
-									<div>
-								  		<h2>id: ${listItem.id}</h2>
-								  		<h2>code: ${listItem.code}</h2>
-								  		<h2>agent: ${listItem.agent}</h2>
-								  		<h3>address: ${listItem.address}</h3>
-								  		<div><img src=${listItem.url} alt='house image for ${listItem.code}' /></div>
-									</div>
-								</a>
+								<div>
+							  		<h2>id: ${listItem.id}</h2>
+							  		<h2>code: ${listItem.code}</h2>
+							  		<h2>agent: ${listItem.agent}</h2>
+							  		<h3>address: ${listItem.address}</h3>
+							  		<div><img src=${listItem.url} alt='house image for ${listItem.code}' /></div>
+								</div>
 							</li>`;
 	}
 

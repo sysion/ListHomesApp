@@ -1,8 +1,11 @@
+'use strict';
+
 import PropertyListItem from './lib/PropertyListItem.js';
 import GetPropertyInfo from './lib/GetPropertyInfo.js';
+import RouteProperty from './lib/RouteProperty.js';
 
 ;(()=>{
-	const propertyListItem = new PropertyListItem('#property');
+	let propertyListItem = new PropertyListItem('#property');
 
 	/*let listItem = `<li> 
 						<a href=''>
@@ -14,10 +17,13 @@ import GetPropertyInfo from './lib/GetPropertyInfo.js';
 						</a>
 					</li>`;*/
 
-	//let listItem = {id:16,code:"house-17",agent:"Danladi Zubair"};
+	//let listItem = {id:16,code:"house-17",agent:"Danladi Zubair"};  // debugging
 	//let listItem = []; 
 
-	const getPropertyInfo = new GetPropertyInfo();
+	let getPropertyInfo = new GetPropertyInfo();
+	let routeProperty = new RouteProperty(propertyListItem);
+	//routeProperty.routeAddPath('home', '/');
+	//routeProperty.routeAddPath('page', '^#/([0-9]+)$');
 
 	/*/ Because getAllProperties() is async, it can not be assigned to a variable
 	let propertiesInfo = getPropertyInfo.getAllProperties().then(function(result){
@@ -32,13 +38,16 @@ import GetPropertyInfo from './lib/GetPropertyInfo.js';
 		propertiesInfo.forEach(item =>{
 			var listItemSummary = {id:item.id, code:item.code, agent:item.agent};
 			//listItem[item.id] = listItemSummary;
-			propertyListItem.addListItems(listItemSummary);
+			propertyListItem.addListItems(listItemSummary);		// update model
 		});
 
 		//console.log(listItem);
 
 		//propertyListItem.renderListItems(listItem);
-		propertyListItem.renderListItems();
+		//propertyListItem.renderListItems();		// render view
+
+		//routeProperty.routeAddPath('home', '/');
+		routeProperty.routeInit();					// render view
 	});	
 
 	let footer_p = document.querySelector('footer > p');
