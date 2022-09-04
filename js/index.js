@@ -5,6 +5,11 @@ import GetPropertyInfo from './lib/GetPropertyInfo.js';
 import RouteProperty from './lib/RouteProperty.js';
 
 ;(()=>{
+	let btn = document.querySelector('.back-btn');
+	let frm = document.querySelector('form');
+	let id = document.querySelector('input[name="id"]');
+	let search = document.querySelector('button[name="search"]');
+	let footer_p = document.querySelector('footer > p');
 	let propertyListItem = new PropertyListItem('#property');
 
 	/*let listItem = `<li> 
@@ -22,8 +27,6 @@ import RouteProperty from './lib/RouteProperty.js';
 
 	let getPropertyInfo = new GetPropertyInfo();
 	let routeProperty = new RouteProperty(propertyListItem);
-	//routeProperty.routeAddPath('home', '/');
-	//routeProperty.routeAddPath('page', '^#/([0-9]+)$');
 
 	/*/ Because getAllProperties() is async, it can not be assigned to a variable
 	let propertiesInfo = getPropertyInfo.getAllProperties().then(function(result){
@@ -43,18 +46,57 @@ import RouteProperty from './lib/RouteProperty.js';
 
 		//console.log(listItem);
 
-		//propertyListItem.renderListItems(listItem);
-		//propertyListItem.renderListItems();		// render view
-
-		//routeProperty.routeAddPath('home', '/');
-		routeProperty.routeInit();					// render view
+		propertyListItem.renderListItems();		// render view
+		routeProperty.routeAddPath('home', '/');
 	});	
 
-	let btn = document.querySelector('.back-btn');
 	btn.addEventListener('click', function(){
-		routeProperty.routeInit();
+		propertyListItem.renderListItems();		// render view
+		routeProperty.routeAddPath('home', '/');
+
+		if (window.location.hash){
+			var hash = window.location.hash;
+			//console.log('hash => '+hash);
+			window.location.hash = '';
+		}
+
+		btn.classList.toggle('hide');
+		frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
 	});
 
-	let footer_p = document.querySelector('footer > p');
+	search.addEventListener('click', function(e){
+		e.preventDefault();		// needed because button(type submit) is trying to submit the form
+		e.stopPropagation();	// needed because button(type submit) is trying to submit the form
+		//console.log('searching');
+
+		var idVal = Number(id.value.trim());
+		//console.log('id => '+idVal);
+
+		if (Number(idVal) === idVal && Number.isInteger(idVal)){
+			/*let items = Object.values(propertyListItem.list);
+	
+			let item = Array.from(items).filter(function(item){
+				//console.log('item => %s, idVal => %s', item.id, idVal);
+				return item.id == idVal;	// returns an array
+			});*/
+
+			//console.log(item);
+			//propertyListItem.renderListItem(item[0]);
+			//routeProperty.routeAddPath('home', '/');
+
+
+
+			//Because getProperty() is async, all action on the returned value MUST be done inside the THEN callback
+			getPropertyInfo.getProperty(idVal).then(result=>{
+				//console.log(result);
+				propertyListItem.renderListItem(result);
+				routeProperty.routeAddPath('home', '/');
+			});	
+
+		}
+		id.value = '';
+	});
+
 	footer_p.innerHTML = '&copy;' + new Date().getFullYear() + ' Sysion Nigeria Ltd';
+
 })();

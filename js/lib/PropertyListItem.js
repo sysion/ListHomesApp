@@ -62,10 +62,10 @@ class PropertyListItem{
 			var link = document.querySelector('a[href*="'+item+'"]');
 			var itemSummary;
 
-			const getPropertyInfo = new GetPropertyInfo(item);
+			const getPropertyInfo = new GetPropertyInfo();
 
-			//Because getAllPropertys() is async, all action on the returned value MUST be done inside the THEN callback
-			getPropertyInfo.getProperty().then(function(result){
+			//Because getAllProperty() is async, all action on the returned value MUST be done inside the THEN callback
+			getPropertyInfo.getProperty(item).then(function(result){
 				//console.log(result.id);
 				if (item == result.id){
 					itemSummary = result;
@@ -78,6 +78,11 @@ class PropertyListItem{
 
 	renderListItem(listItem){
 		this.property.innerHTML = this.ListItemTemplate(listItem);
+
+		var $this = this;
+		var link = document.querySelector('a[href*="'+listItem.id+'"]');
+
+		this.EventHandler(link, listItem);
 	}
 
 	ListItemTemplate(listItem){
@@ -99,14 +104,22 @@ class PropertyListItem{
 			e.preventDefault();
 			e.stopPropagation();
 			//console.log('hello');
+
 			let propertyDetailPage = new PropertyDetailPage('#property');
 			let routeProperty = new RouteProperty(propertyDetailPage);
 			propertyDetailPage.addListItem(listItem);		// update model
-			//propertyDetailPage.renderListItem();			// render view
+			propertyDetailPage.renderListItem();			// render view
 
-			//var path = '#/' + listItem.id;
-			//routeProperty.routeAddPath('page', path);
-			routeProperty.routeHash();						// render view
+			var path = '#/' + listItem.id;
+			routeProperty.routeAddPath('page', path);
+
+			let btn = document.querySelector('.back-btn');
+			let frm = document.querySelector('form');
+			//console.log(btn.classList);
+			//console.log('form => '+frm.className);
+			btn.classList.toggle('hide');
+			//frm.className === 'show' ? frm.className = 'hide' : null;
+			frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
 		});
 	}
 

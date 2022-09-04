@@ -72,8 +72,28 @@ header h1{
 	box-shadow: none;
 }
 
+.back-btn button:hover,
 .back-btn button:focus{
-	
+	background: #ab34dd;
+}
+
+form{
+	width: 20rem;
+	margin-top: 4rem;
+	margin-bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+form input{
+	width: 10rem;
+	text-align: center;
+}
+
+form button{
+	width: 8rem;
+	padding: 0.2rem;
+	text-align: center;
 }
 
 #property{

@@ -10,8 +10,9 @@ class GetPropertyInfo{
     	return response.json();
 	}
 
-	async getProperty(){
-		const response = await fetch(`http://127.0.0.1:12345/api/houses/index.php?id=${this.id}`);
+	async getProperty(id){
+		//const response = await fetch(`http://127.0.0.1:12345/api/houses/index.php?id=${this.id}`);
+		const response = await fetch(`http://127.0.0.1:12345/api/houses/index.php?id=${id}`);
 		return response.json();
 	}
 }
