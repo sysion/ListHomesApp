@@ -1,106 +1,63 @@
 'use strict';
 
+import PropertyDetailPage from './lib/PropertyDetailPage.js';
 import PropertyListItem from './lib/PropertyListItem.js';
 import GetPropertyInfo from './lib/GetPropertyInfo.js';
 import RouteProperty from './lib/RouteProperty.js';
 
 ;(()=>{
-	let btn = document.querySelector('.back-btn');
+	let backBtn = document.querySelector('.back-btn');
+	let backBtn2 = document.querySelector('.back-btn2');
 	let frm = document.querySelector('form');
 	let id = document.querySelector('input[name="id"]');
 	let search = document.querySelector('button[name="search"]');
 	let footer_p = document.querySelector('footer > p');
-	let propertyListItem = new PropertyListItem('#property');
 
-	/*let listItem = `<li> 
-						<a href=''>
-							<div>
-						  		<h1>id:</h1>
-						  		<h2>code:</h2>
-						  		<h3>agent:</h3>
-							</div>
-						</a>
-					</li>`;*/
-
-	//let listItem = {id:16,code:"house-17",agent:"Danladi Zubair"};  // debugging
-	//let listItem = []; 
-
+	//let state = {};			//object of objects (global state - not proper for component design)
 	let getPropertyInfo = new GetPropertyInfo();
+	let propertyListItem = new PropertyListItem('#property', getPropertyInfo);
+	let propertyDetailPage = new PropertyDetailPage('#property');
 	let routeProperty = new RouteProperty(propertyListItem);
 
-	/*/ Because getAllProperties() is async, it can not be assigned to a variable
-	let propertiesInfo = getPropertyInfo.getAllProperties().then(function(result){
-		return result;
-	});*/
+	//let db = propertyListItem.getListItems();
 
-	//Because getAllProperties() is async, all action on the returned value MUST be done inside the THEN callback
-	getPropertyInfo.getAllProperties().then(result=>{
-		let propertiesInfo = result;
-		//console.log(propertiesInfo);
-
-		propertiesInfo.forEach(item =>{
-			var listItemSummary = {id:item.id, code:item.code, agent:item.agent};
-			//listItem[item.id] = listItemSummary;
-			propertyListItem.addListItems(listItemSummary);		// update model
-		});
-
-		//console.log(listItem);
-
-		propertyListItem.renderListItems();		// render view
-		routeProperty.routeAddPath('home', '/');
-	});	
-
-	btn.addEventListener('click', function(){
-		propertyListItem.renderListItems();		// render view
-		routeProperty.routeAddPath('home', '/');
-
-		if (window.location.hash){
-			var hash = window.location.hash;
-			//console.log('hash => '+hash);
-			window.location.hash = '';
-		}
-
-		btn.classList.toggle('hide');
-		frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
-	});
-
-	search.addEventListener('click', function(e){
-		e.preventDefault();		// needed because button(type submit) is trying to submit the form
-		e.stopPropagation();	// needed because button(type submit) is trying to submit the form
-		//console.log('searching');
-
-		var idVal = Number(id.value.trim());
-		//console.log('id => '+idVal);
-
-		if (Number(idVal) === idVal && Number.isInteger(idVal)){
-			/*let items = Object.values(propertyListItem.list);
-	
-			let item = Array.from(items).filter(function(item){
-				//console.log('item => %s, idVal => %s', item.id, idVal);
-				return item.id == idVal;	// returns an array
-			});*/
-
-			//console.log(item);
-			//propertyListItem.renderListItem(item[0]);
-			//routeProperty.routeAddPath('home', '/');
-
-
-
-			//Because getProperty() is async, all action on the returned value MUST be done inside the THEN callback
-			getPropertyInfo.getProperty(idVal).then(result=>{
-				//console.log(result);
-				propertyListItem.renderListItem(result);
-				routeProperty.routeAddPath('home', '/');
-			});	
-
-		}
-		id.value = '';
-	});
+	search.addEventListener('click', findHouse);
+	backBtn2.addEventListener('click', pageBack);
 
 	footer_p.innerHTML = '&copy;' + new Date().getFullYear() + ' Sysion Nigeria Ltd';
 
+	function findHouse(e){
+		e.preventDefault();		
+		e.stopPropagation();
+
+		var index = Number(id.value.trim()) ? parseInt(id.value.trim()) : 0;
+		propertyListItem.getListItems(index);
+		id.value = "";
+		backBtn2.classList.remove('hide');
+	}
+
+	function pageBack(e){
+		const self = this;
+		
+		console.log('one page back');
+		window.history.back();
+		propertyListItem.getListItems();
+
+		backBtn2.classList.add('hide');
+
+		//frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
+	}
+
+	//window.history.replaceState(null, null, '/');		// reset window.location.hash
+	//var page = window.location.hash;
+	//console.log('page = ' + page);
+
+	window.addEventListener('DOMContentLoaded', routeProperty.routePage());
+	//window.addEventListener('hashchange', routeProperty.routePage(page));
+	window.addEventListener('popstate', routeProperty.routePop);
+
 	// serviceWorker code
-	if (! navigator.serviceWorker.controller) {//https or localhost required for serviceWorker
+	if (! navigator.serviceWorker.controller) {		//https or localhost required for serviceWorker
 	    if (navigator && navigator.serviceWorker) {
 	      window.addEventListener('load', () => {
 	        navigator.serviceWorker.register('../serviceWorker.js').then((registration) => {

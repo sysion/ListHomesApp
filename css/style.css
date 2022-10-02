@@ -1,4 +1,4 @@
-*{
+*,*:before,*:after{
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
@@ -26,10 +26,9 @@ a:hover{
 }
 
 .container{
-	width: 768px;
+	width: 100%;
 	min-height: calc(100vh - 50px);
-	margin: 5rem auto;
-	padding: 4rem;
+	padding: 2rem;
 	font-size: 1.6rem;
 	background: #ffffff;
 }
@@ -46,9 +45,31 @@ header{
 
 header h1{
 	font-weight: bold;
+	font-size: 1.6rem; 
 }
 
-.back-btn{
+/********************************************** 
+ best styling for cross-browser compatibility 
+***********************************************/
+/*button, input, select, textarea, fieldset,legend {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	font-family: inherit;
+	font-size: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	background-color: transparent;
+	border: none;
+}*/
+
+button,input{
+	appearance: none;
+}
+
+.back-btn,
+.back-btn2{
 	width: 100%;
 	height: 5rem;
 	line-height: 5rem;
@@ -57,7 +78,13 @@ header h1{
 	text-align: center;
 }
 
-.back-btn button{
+.back-btn2{
+	margin-top: 0;
+	margin-bottom: 2rem;
+}
+
+.back-btn button,
+.back-btn2 button{
 	width: 15rem;
 	height: 4.5rem;
 	padding: 1rem;
@@ -77,6 +104,11 @@ header h1{
 	background: #ab34dd;
 }
 
+.back-btn2 button:hover,
+.back-btn2 button:focus{
+	background: #ab34dd;
+}
+
 form{
 	width: 20rem;
 	margin-top: 4rem;
@@ -87,30 +119,56 @@ form{
 
 form input{
 	width: 10rem;
+	height: 3.5rem;
 	text-align: center;
+	background : none;		/* helps normalize input element across browsers */
+	border: solid 1px rgba(0,0,0,0.3);
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	outline: none;
 }
 
 form button{
 	width: 8rem;
-	padding: 0.2rem;
+	height: 3.5rem;
 	text-align: center;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background: #dd34ab;
+	color: #ffffff;
+	font-size: 1.4rem;
+	font-weight: bold;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	text-transform: capitalize;
 }
 
 #property{
-	padding: 2rem;
+	padding: 1rem;
 	list-style: none;
 	width: 100%;
 }
 
 #property li{
-	margin: 2rem;
+	margin: 0;
 	border: solid 0.1rem #aaaaaa;
 	border-radius: 1rem;
 	box-shadow: 0.5rem 1rem 0 #dd34ab;
+	font-size: 1rem;
+}
+
+#property li:nth-child(1){
+	margin-top: 2rem;
+}
+
+#property li:last-child{
+	margin-bottom: 2rem;
 }
 
 #property li.detail{
-	padding: 2rem;
+	padding: 1rem;
+	color: rgba(22,22,22,0.5);
 }
 
 #property li:not(#property li.detail):not(:last-of-type){
@@ -131,14 +189,13 @@ li.detail div{
 
 li.detail img{
 	display: block;
-	width: 20rem;
-	max-width: 20rem;
-	height: auto;
-	margin: 0 auto;
+	width: 100%;
+	max-width: 100%;
+	height: 7.5rem;
 }
 
-.show{
-	display: block;
+.btn2{
+	
 }
 
 .hide{
@@ -155,23 +212,95 @@ footer{
 	border-radius: 0.5rem;
 }
 
+/*@media screen and (min-width: 280.1px) and (max-width: 320px){*/
 @media screen and (min-width: 320px){
-	li.detail img{
-		width: 30rem;
-		max-width: 30rem;
+	header h1{ 
+		font-size: 1.8rem; 
+	}
+
+	#property li{
+		font-size: 1.2rem;
 	}
 }
 
+/*@media screen and (min-width: 320.1px) and (max-width: 480px){*/
 @media screen and (min-width: 480px){
+	header h1{ 
+		font-size: 2rem; 
+	}
+
+	#property li{
+		font-size: 1.4rem;
+	}
+
 	li.detail img{
-		width: 40rem;
-		max-width: 40rem;
+		height: 10rem;
 	}
 }
 
+/*@media screen and (min-width: 480.1px) and (max-width: 576px){*/
 @media screen and (min-width: 576px){
+	header h1{ 
+		font-size: 2rem; 
+	}
+
+	#property li{
+		font-size: 1.5rem;
+	}
+
+	#property li.detail{
+		padding: 2rem;
+	}
+
 	li.detail img{
-		width: 50rem;
-		max-width: 50rem;
+		height: 12rem;
+	}
+}
+
+/*@media screen and (min-width: 576.1px) and (max-width: 768px){*/
+@media screen and (min-width: 768px){
+	.container{
+		width: 768px;
+		margin: 0 auto;
+	}
+
+	header h1{ 
+		font-size: 2.8rem; 
+	}
+
+	#property li{
+		font-size: 1.5rem;
+	}
+
+	#property li.detail{
+		padding: 2rem;
+	}
+
+	li.detail img{
+		height: 12.5rem;
+	}
+}
+
+/*@media screen and (min-width: 768.1px){*/
+@media screen and (min-width: 768px){
+	.container{
+		width: 768px;
+		margin: 0 auto;
+	}
+
+	header h1{ 
+		font-size: 3.2rem; 
+	}
+
+	#property li{
+		font-size: 1.6rem;
+	}
+
+	#property li.detail{
+		padding: 2rem;
+	}
+
+	li.detail img{
+		height: 15rem;
 	}
 }

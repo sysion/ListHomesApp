@@ -4,67 +4,78 @@ import PropertyListItem from './PropertyListItem.js';
 import PropertyDetailPage from './PropertyDetailPage.js';
 
 class RouteProperty{
-	constructor(property){
-		this.property = property;
-		this.routes = [];
-		this.routeInit = this.routeInit.bind(this);
-		this.routeHash = this.routeHash.bind(this);
-		this.baseUrl = window.location.origin;
-		//window.addEventListener('DOMContentLoaded', this.routeInit);
-		window.addEventListener('hashchange', this.routeHash);
+	constructor(propertyListItem){
+		this.propertyListItem = propertyListItem;
+		this.routePop = this.routePop.bind(this);
+
+		//window.addEventListener('DOMContentLoaded', this.routePage);
+		//window.addEventListener('hashchange', this.routePage);
 	}
 
-	routeInit(){
-		
-	}
-
-	routeHash(listItem=null){
-		//console.log('hash => '+window.location.hash);
-
-		if (! window.location.hash && this.property instanceof PropertyDetailPage){
-			var path = '#/' + this.property.currentProperty.id; 
-			var url = this.baseUrl + path;
-			window.history.pushState({}, '', url);
-			this.property.renderListItem();
-
-			let btn = document.querySelector('.back-btn');
-			let frm = document.querySelector('form');
-			//console.log(btn.classList);
-			//console.log('form => '+frm.className);
-			btn.classList.toggle('hide');
-			//frm.className === 'show' ? frm.className = 'hide' : null;
-			frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
+	routePage(page = null){
+		if (page === null || page === ""){
+			this.propertyListItem.getListItems();
+			window.history.replaceState(null, null, '/');		// reset window.location.hash
 		}
-		/*else if (! window.location.hash && this.property instanceof PropertyListItem && listItem !== null){
-			var path = '#/' + listItem.id; 
-			var url = this.baseUrl + path;
-			window.history.pushState({}, '', url);
-			this.property.renderListItem(listItem);
+		else{
+			//window.history.pushState(null, null, '/'+page);
+			console.log('hash changed');
+			this.propertyListItem.getListItems(page);
+		}	
+	}
 
-			let btn = document.querySelector('.back-btn');
-			let frm = document.querySelector('form');
+	routePop(){
+		var self = this;
+		var path = window.location.hash;
+		var id = null;
+		var backBtn = document.querySelector('.back-btn');
+		var frm = document.querySelector('form');
+		//var id = path.split('/').pop();
+		//id = Number(id) ? Number(id) : null;
+		
+		if (path.substring('#')){
+			id = path.split('/').pop();
+			id = Number(id);
+			console.log(id);
 
-			btn.classList.toggle('hide');
-			frm.className === 'show' ? frm.className = 'hide' : null;
+			//self.propertyListItem.getListItems(id);
+			self.propertyListItem.displayDetails(self.propertyListItem.list[id]);
+
+			if (backBtn.classList.contains('hide')){
+				backBtn.classList.remove('hide');	
+			}
+
+			if (!frm.classList.contains('hide')){
+				frm.classList.add('hide');
+			}
+		}
+		else if (id === null){
+			// pageBack() calls below line, results in popstate, call pageBack() again i.e. cyclic calls
+			//self.propertyListItem.pageBack();
+			self.propertyListItem.getListItems(null);
+
+			//
+			if (!backBtn.classList.contains('hide')){
+				backBtn.classList.add('hide');	
+			}
+
+			if (frm.classList.contains('hide')){
+				frm.classList.remove('hide');
+			}
+		}
+
+		/*if (id === null){
+			self.propertyListItem.pageBack();
+		}
+		else{
+			var id = path.split('/').pop();
+			id = Number(id) ? Number(id) : null;
+			console.log(id);
+
+			//self.propertyListItem.getListItems(id);
+			self.propertyListItem.displayDetails(id);
 		}*/
-		else{
-			var url = this.baseUrl;
-			window.history.pushState({}, '', url);
-			window.location.href = url;
-		}
-		
-		
 	}
-
-	routeAddPath(name, path){
-		if (this.routes[name] === 'home' || this.routes[name] === 'page'){
-			this.routes[name] = path;
-		}
-		else{
-			this.routes.push({name, path});
-		}
-	}
-
 
 }
 
