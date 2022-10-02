@@ -13,13 +13,10 @@ import RouteProperty from './lib/RouteProperty.js';
 	let search = document.querySelector('button[name="search"]');
 	let footer_p = document.querySelector('footer > p');
 
-	//let state = {};			//object of objects (global state - not proper for component design)
 	let getPropertyInfo = new GetPropertyInfo();
 	let propertyListItem = new PropertyListItem('#property', getPropertyInfo);
 	let propertyDetailPage = new PropertyDetailPage('#property');
 	let routeProperty = new RouteProperty(propertyListItem);
-
-	//let db = propertyListItem.getListItems();
 
 	search.addEventListener('click', findHouse);
 	backBtn2.addEventListener('click', pageBack);
@@ -39,21 +36,13 @@ import RouteProperty from './lib/RouteProperty.js';
 	function pageBack(e){
 		const self = this;
 		
-		console.log('one page back');
 		window.history.back();
 		propertyListItem.getListItems();
 
 		backBtn2.classList.add('hide');
-
-		//frm.className === 'show' ? frm.className = 'hide' : frm.className = 'show';
 	}
 
-	//window.history.replaceState(null, null, '/');		// reset window.location.hash
-	//var page = window.location.hash;
-	//console.log('page = ' + page);
-
 	window.addEventListener('DOMContentLoaded', routeProperty.routePage());
-	//window.addEventListener('hashchange', routeProperty.routePage(page));
 	window.addEventListener('popstate', routeProperty.routePop);
 
 	// serviceWorker code
