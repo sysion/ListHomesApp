@@ -1,11 +1,12 @@
 {
-    "theme_color": "#ffffff",
+    "theme_color": "#dd34ab",
     "background_color": "#ffffff",
     "display": "standalone",
+    "orientation": "portrait-primary",
     "start_url": "index.html",
     "name": "ListHomesApp",
     "short_name": "ListHomesApp",
-    "description": "ListHomesApp demonstrates use of vanilla js component",
+    "description": "ListHomesApp list Properties available for sale/rent",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",

@@ -1,5 +1,7 @@
-const cacheName = 'listHomesApp_cache_v1';
-const RUNTIME = 'runtime';
+const staticCacheName = 'listHomesApp_cache_v2';
+const runtimeCacheName = 'runtime_cache_v1';
+const maxCacheSize = 30;
+
 const cachedAssets = [
   './',
   './index.html',
@@ -15,16 +17,19 @@ const cachedAssets = [
   './css/style.css',
   './css/normalize.css',
   './favicon.ico',
+  './image/offline-image.png',
   './icons/icon-512x512.png',
   './icons/icon-384x384.png',
   './icons/icon-256x256.png',
-  './icons/icon-192x192.png'
+  './icons/icon-192x192.png',
 ];
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
+  console.log('[Service Worker] installed');
+
   event.waitUntil(
-    caches.open(cachedAssets)
+    caches.open(staticCacheName)
       .then(cache => cache.addAll(cachedAssets))
       .then(self.skipWaiting())
   );
@@ -32,7 +37,8 @@ self.addEventListener('install', event => {
 
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
-  const currentCaches = [cachedAssets, RUNTIME];
+  const currentCaches = [staticCacheName, runtimeCacheName];
+
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
@@ -48,23 +54,38 @@ self.addEventListener('activate', event => {
 // If no response is found, it populates the runtime cache with the response
 // from the network before returning it to the page.
 self.addEventListener('fetch', event => {
-  // Skip cross-origin requests, like those for Google Analytics.
-  if (event.request.url.startsWith(self.location.origin)) {
-    event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-        return caches.open(RUNTIME).then(cache => {
-          return fetch(event.request).then(response => {
-            // Put a copy of the response in the runtime cache.
-            return cache.put(event.request, response.clone()).then(() => {
-              return response;
-            });
+      return caches.open(runtimeCacheName).then(cache => {
+        return fetch(event.request).then(response => {
+          // Put a copy of the response in the runtime cache.
+          return cache.put(event.request, response.clone()).then(() => {
+            limitCacheSize = (runtimeCacheName, maxCacheSize);    // limit runtimeCacheName size to maxCacheSize
+            return response;
           });
         });
+      });
+    }).catch(() => {
+        if (event.request.url.indexOf('.html') > -1){ // we are tyring to GET an html page 
+          return caches.match('/offline.html');
+        }
+        else if (event.request.url.indexOf('/images/house-') > -1){
+          return caches.match('/image/offline-image.png');
+        }
       })
-    );
-  }
+  );
 });
+
+let limitCacheSize = (name, size) =>{
+  caches.open(name).then(cache => {
+    cache.keys().then(keys => {
+      if (keys.length > size){
+        cache.delete(key[0]).then(limitCacheSize = (name, size));  // recursive call
+      }
+    })
+  })
+};

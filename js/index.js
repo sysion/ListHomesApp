@@ -36,7 +36,6 @@ import RouteProperty from './lib/RouteProperty.js';
 	function pageBack(e){
 		const self = this;
 		
-		window.history.back();
 		propertyListItem.getListItems();
 
 		backBtn2.classList.add('hide');
